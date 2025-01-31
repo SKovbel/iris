@@ -1,8 +1,8 @@
 import time
 import numpy as np
-from dataset import Iris as Dataset
+from dataset import Iris
 
-class NNet:
+class NNMseSigmoid:
     biasses = []
     weights = []
 
@@ -51,9 +51,9 @@ class NNet:
 
 
 if __name__ == '__main__':
-    ds = Dataset(test_size=0.2)
-    X_train, X_test, y_train, y_test = ds.train_data()
-    model = NNet(dim=(4, 6, 3))
+    iris = Iris()
+    X_train, X_test, y_train, y_test = iris.numpy_dataset(test_size=0.2)
+    model = NNMseSigmoid(dim=(4, 6, 3))
     model.train(X_train, y_train, epochs=1000, lr=0.005)
     y_pred = model.predict(X_test)
-    ds.compare_pred(y_pred, y_test)
+    iris.show_comparision(y_pred, y_test)

@@ -1,5 +1,5 @@
 import numpy as np
-from dataset import Iris as Dataset
+from dataset import Iris
 
 # Monte Carlo
 class BayesNNet:
@@ -86,10 +86,10 @@ if __name__ == '__main__':
         {'func': 'softmax', 'in': 6, 'out': 3}
     ))
 
-    ds = Dataset()
+    iris = Iris()
 
-    X_train, X_test, y_train, y_test = ds.train_norm()
+    X_train, X_test, y_train, y_test = iris.numpy_dataset(normilize=True)
     bnn.train(X_train, y_train, epochs=100, samples=10, lr=0.01)
 
     y_pred = bnn.predict(X_test)
-    ds.compare_pred(y_pred, y_test)
+    iris.show_comparision(y_pred, y_test)
