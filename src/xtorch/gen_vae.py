@@ -48,7 +48,7 @@ class VAE(nn.Module):
         return x_reconstructed, mu, logvar
 
     def train_model(self, dataloader, epochs, learning_rate, device):
-        optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+        optimizer = torch.optim.Adam(self.parameters(), lr=learning_rate)
         for epoch in range(epochs):
             self.train()
             train_loss = 0
@@ -62,55 +62,61 @@ class VAE(nn.Module):
                 optimizer.step()
             print(f"Epoch {epoch + 1}, Loss: {train_loss / len(dataloader):.4f}")
 
-    # Mean Squared Error
-    # KL Divergence
     # KL Divergence (KLD) ensures that the learned latent space distribution is close to a standard normal distribution (N(0,1)).
     # DKL(q(z∣x) ∣∣ p(z)) = −1/2 * ∑(1 + log(σ^2) − μ^2 − σ^2)
     @staticmethod
-    def loss_function(recon_x, x, mu, logvar):
-        MSE = F.mse_loss(recon_x, x, reduction='sum')
+    def loss_function(recon_X, X, mu, logvar):
+        # Mean Squared Error, Reconstruction Loss
+        # KL Divergence, Regularization
+        MSE = F.mse_loss(recon_X, X, reduction='sum')
         KLD = -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp())
         return MSE + KLD
+
+    @staticmethod
+    def loss_function_todo(recon_X, X, mu, logvar):
+        # Binary Cross Entropy, Reconstruction Loss
+        # KL Divergence, Regularization
+        BCE = F.binary_cross_entropy(recon_X, X, reduction='sum')
+        KLD = -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp())
+        return BCE + KLD
+
+    def samples(self):
+        self.eval()
+        samples = []
+        with torch.no_grad():
+            z = torch.randn(samples_count, latent_dim).to(device)
+            sample = self.decode(z).cpu().numpy()
+            samples.append(sample.tolist())
+        return samples[0]
 
 if __name__ == '__main__':
     # Parameters
     input_dim = 4
-    hidden_dim = 124
-    latent_dim = 2
+    hidden_dim = 16
+    latent_dim = 32
     batch_size = 16
     learning_rate = 1e-3
     epochs = 100
     samples_count = 150
 
-    # Load data
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
     iris = Iris()
     stats = Stats()
+    softmax = NNSoftmax()
+    vae = VAE(input_dim, hidden_dim, latent_dim).to(device)
+
+    # train 
     dataloader = iris.torch_dataset(batch_size=batch_size, normilize=True)
+    vae.train_model(dataloader, epochs, learning_rate, device)
+    sample_X = vae.samples()
 
-    # Initialize the model
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = VAE(input_dim, hidden_dim, latent_dim).to(device)
-
-    # train
-    model.train_model(dataloader, epochs, learning_rate, device)
-
-    # Generate samples
-    model.eval()
-    samples = []
-    with torch.no_grad():
-        z = torch.randn(samples_count, latent_dim).to(device)
-        sample = model.decode(z).cpu().numpy()
-        #sample = iris.denormilize(sample)
-        samples.append(sample.tolist())
-
-    # test\
+    # train softmax on real data
     X_train, X_test, Y_train, Y_test = iris.numpy_dataset(test_size=0.2, normilize=True)
+    softmax.backward(X_train, Y_train, epochs=2000, lr=0.1)
 
-    model2 = NNSoftmax()
-    model2.backward(X_train, Y_train, epochs=2000, lr=0.1)
-    sample_X = samples[0]
-    sample_y = model2.predict(sample_X)
+    # classify new samples with softmax
+    sample_y = softmax.predict(sample_X)
     print("\nGenerated Samples:")
-    #print(iris.denormilize(samples[0]))
     iris.show_probability(iris.denormilize(sample_X), sample_y)
     stats.sns_pairplot(iris.denormilize(sample_X), sample_y, show_default=True)

@@ -19,6 +19,9 @@ torch-nn-softmax:
 torch-gen-vae:
 	C:/work/python39/python.exe -m xtorch.gen_vae
 
+torch-gen-diffusion:
+	C:/work/python39/python.exe -m xtorch.gen_diffusion
+
 mse_sigmoid:
 	C:/work/python39/python.exe -m xsimple.nn_mse_sigmoid
 
