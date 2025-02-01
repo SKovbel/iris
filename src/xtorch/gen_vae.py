@@ -47,12 +47,12 @@ class VAE(nn.Module):
         x_reconstructed = self.decode(z)
         return x_reconstructed, mu, logvar
 
-    def train_model(self, dataloader, epochs, learning_rate, device):
+    def train_model(self, data, epochs, learning_rate, device):
         optimizer = torch.optim.Adam(self.parameters(), lr=learning_rate)
         for epoch in range(epochs):
             self.train()
             train_loss = 0
-            for batch in dataloader:
+            for batch in data:
                 x = batch[0].to(device)
                 optimizer.zero_grad()
                 recon_x, mu, logvar = self.forward(x)
@@ -60,7 +60,7 @@ class VAE(nn.Module):
                 loss.backward()
                 train_loss += loss.item()
                 optimizer.step()
-            print(f"Epoch {epoch + 1}, Loss: {train_loss / len(dataloader):.4f}")
+            print(f"Epoch {epoch + 1}, Loss: {train_loss / len(data):.4f}")
 
     # KL Divergence (KLD) ensures that the learned latent space distribution is close to a standard normal distribution (N(0,1)).
     # DKL(q(z∣x) ∣∣ p(z)) = −1/2 * ∑(1 + log(σ^2) − μ^2 − σ^2)
@@ -109,14 +109,14 @@ if __name__ == '__main__':
     # train 
     dataloader = iris.torch_dataset(batch_size=batch_size, normilize=True)
     vae.train_model(dataloader, epochs, learning_rate, device)
-    sample_X = vae.samples()
+    samples_X = vae.samples()
 
     # train softmax on real data
     X_train, X_test, Y_train, Y_test = iris.numpy_dataset(test_size=0.2, normilize=True)
     softmax.backward(X_train, Y_train, epochs=2000, lr=0.1)
 
     # classify new samples with softmax
-    sample_y = softmax.predict(sample_X)
+    samples_y = softmax.predict(samples_X)
     print("\nGenerated Samples:")
-    iris.show_probability(iris.denormilize(sample_X), sample_y)
-    stats.sns_pairplot(iris.denormilize(sample_X), sample_y, show_default=True)
+    iris.show_probability(iris.denormilize(samples_X), samples_y)
+    stats.sns_pairplot(iris.denormilize(samples_X), samples_y, show_default=True)

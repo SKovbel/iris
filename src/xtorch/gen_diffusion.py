@@ -34,25 +34,25 @@ class Diffusion(nn.Module):
 
         return (x_t - sqrt_beta_t * predicted_noise) / sqrt_1_minus_beta_t
 
-    def train_model(self, data, batch_size=32, epochs=10, lr=1e-3):
+    def train_model(self, data, epochs=10, lr=1e-3):
         optimizer = optim.Adam(self.parameters(), lr=lr)
         loss_fn = nn.MSELoss()
 
         for epoch in range(epochs):
             total_loss = 0
-            for batch_data in data:
-                if len(batch_data) < batch_size:
+            for batch in data:
+                if len(batch) < batch_size:
                     continue
 
                 # Random time steps for forward diffusion process
-                t = torch.randint(0, self.num_steps, (batch_data.size(0),), dtype=torch.long)
+                t = torch.randint(0, self.num_steps, (batch.size(0),), dtype=torch.long)
                 t = t.float() / self.num_steps  # Normalize to [0, 1]
 
-                x_t = self.add_noise(batch_data, t)
+                x_t = self.add_noise(batch, t)
                 x_reconstructed = self.denoise(x_t, t)
 
                 # Compute the loss - difference between reconstructed and original data
-                loss = loss_fn(x_reconstructed, batch_data)
+                loss = loss_fn(x_reconstructed, batch)
                 total_loss += loss.item()
 
                 # Backpropagation
@@ -72,6 +72,7 @@ if __name__ == "__main__":
     batch_size = 16
     num_steps = 100
     num_samples = 150
+    epochs = 100
 
     iris = Iris()
     stats = Stats()
@@ -84,12 +85,11 @@ if __name__ == "__main__":
 
     # train diffusion
     dataloader = iris.torch_dataset(batch_size=batch_size, normilize=True)
-    diffusion.train_model(dataloader, epochs=110)
-    sample_X = diffusion.samples(num_samples=150)
+    diffusion.train_model(dataloader, epochs=epochs)
+    samples_X = diffusion.samples(num_samples=num_samples)
 
     # classify new samples with softmax
-    print(sample_X)
-    sample_y = softmax.predict(sample_X)
+    samples_y = softmax.predict(samples_X)
     print("\nGenerated Samples:")
-    iris.show_probability(iris.denormilize(sample_X), sample_y)
-    stats.sns_pairplot(iris.denormilize(sample_X), sample_y, show_default=True)
+    iris.show_probability(iris.denormilize(samples_X), samples_y)
+    stats.sns_pairplot(iris.denormilize(samples_X), samples_y, show_default=True)

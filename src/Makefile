@@ -22,6 +22,12 @@ torch-gen-vae:
 torch-gen-diffusion:
 	C:/work/python39/python.exe -m xtorch.gen_diffusion
 
+torch-gen-auto-reg-cnn:
+	C:/work/python39/python.exe -m xtorch.gen_auto_reg_cnn
+
+torch-gen-auto-reg-lstm:
+	C:/work/python39/python.exe -m xtorch.gen_auto_reg_lstm
+
 mse_sigmoid:
 	C:/work/python39/python.exe -m xsimple.nn_mse_sigmoid
 
