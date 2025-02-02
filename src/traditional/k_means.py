@@ -4,6 +4,8 @@ from sklearn.cluster import KMeans
 
 from dataset import Iris
 
+# K-Means: An unsupervised clustering algorithm that groups 
+# similar data points into clusters based on their similarity.
 class KMeanModel():
     def __init__(self, n_clusters=3, random_seed=1, n_init=10, max_iter=100, tol=1e-4):
         self.tol = tol
@@ -26,12 +28,12 @@ class KMeanModel():
         np.random.seed(self.random_seed)
         self.centroids = X[np.random.choice(X.shape[0], self.n_clusters, replace=False)]  # Randomly centroids
         for _ in range(self.max_iter):
-            # Assign points to closest centroid, distance to centroids, label of closest centroid
+            # Step 1: Assign points to closest centroid, distance to centroids, label of closest centroid
             distances = np.linalg.norm(X[:, np.newaxis] - self.centroids, axis=2)  # 
             labels = np.argmin(distances, axis=1)
-            #Compute new centroids
+            # Step 2: Compute new centroids
             new_centroids = np.array([X[labels == i].mean(axis=0) for i in range(self.n_clusters)])
-            # Check for convergence (if centroids stop changing)
+            # Step 3: Check for convergence (if centroids stop changing)
             if np.linalg.norm(new_centroids - self.centroids) < self.tol:
                 break
             centroids = new_centroids

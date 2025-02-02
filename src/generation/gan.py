@@ -6,6 +6,7 @@ from dataset import Iris
 from stats import Stats
 from simple.torch_softmax import NNSoftmax
 
+# @todo bad result
 class Generator(nn.Module):
     def __init__(self, latent_dim=8, hidden_size=64, output_size=4):
         super().__init__()

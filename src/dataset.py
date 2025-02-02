@@ -28,6 +28,9 @@ class Iris:
         df['Species'] = self.iris.target_names[y]
         return df
 
+    def array_binary(self, X):
+        return np.eye(X.shape[1])[np.argmax(X, axis=1)]
+
     def speacias_names(self):
         return self.iris.target_names
 

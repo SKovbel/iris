@@ -1,0 +1,1 @@
+# SVD - singular Value Decompositions - Matrix fractorization technique for dimensionality reduction and latent features 
