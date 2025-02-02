@@ -4,7 +4,7 @@ import torch.nn.functional as F
 
 from dataset import Iris
 from stats import Stats
-from xtorch.nn_softmax import NNSoftmax
+from simple.torch_softmax import NNSoftmax
 
 # VAE Model
 class VAE(nn.Module):
@@ -98,7 +98,6 @@ if __name__ == '__main__':
     learning_rate = 1e-3
     epochs = 100
     samples_count = 150
-
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     iris = Iris()

@@ -26,8 +26,10 @@ class Iris:
         df = pd.DataFrame(X, columns=self.iris.feature_names)
         y = np.argmax(y, axis=1)
         df['Species'] = self.iris.target_names[y]
-        print(df.head())
         return df
+
+    def speacias_names(self):
+        return self.iris.target_names
 
     def panda_dataframe(self):
         import pandas as pd
@@ -35,16 +37,18 @@ class Iris:
         df['Species'] = self.iris.target_names[self.iris.target]
         return df
 
-    def array_dataset(self, normilize=False):
-        N = np.max(self.iris.target) + 1
+    def array_dataset(self, one_hot_y=True, normilize=False):
         X = self.iris.data
-        y = np.eye(N)[self.iris.target]
+        y = self.iris.target
+        if one_hot_y:
+            N = np.max(self.iris.target) + 1
+            y = np.eye(N)[y]
         if normilize:
             X = self.normilize(X, fit=True)
         return X, y
 
-    def numpy_dataset(self, test_size=0.2, normilize=False):
-        X, y = self.array_dataset(normilize=False)
+    def numpy_dataset(self, test_size=0.2, one_hot_y=True, normilize=False):
+        X, y = self.array_dataset(one_hot_y=one_hot_y, normilize=False)
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=1)
         if normilize:
             X_train = self.normilize(X_train, fit=True)

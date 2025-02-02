@@ -4,7 +4,7 @@ import torch.optim as optim
 
 from dataset import Iris
 from stats import Stats
-from xtorch.nn_softmax import NNSoftmax
+from simple.torch_softmax import NNSoftmax
 
 class AutoRegLstm(nn.Module):
     def __init__(self, input_size, hidden_size, output_size, batch_size=16, epochs=200, lr=0.001):
