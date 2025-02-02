@@ -31,8 +31,11 @@ class Iris:
     def array_binary(self, X):
         return np.eye(X.shape[1])[np.argmax(X, axis=1)]
 
-    def speacias_names(self):
+    def class_names(self):
         return self.iris.target_names
+
+    def feature_names(self):
+        return self.iris.feature_names
 
     def panda_dataframe(self):
         import pandas as pd

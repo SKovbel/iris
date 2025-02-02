@@ -47,7 +47,7 @@ if __name__ == '__main__':
     pca = PCAModel()
 
     X, y = iris.array_dataset(one_hot_y=False, normilize=True)
-    names = iris.speacias_names()
+    names = iris.class_names()
 
     X_pca1 = pca.predict(X, n_components=2)
     X_pca2 = pca.predict_(X, n_components=2)

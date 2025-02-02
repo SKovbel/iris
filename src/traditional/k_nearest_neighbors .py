@@ -45,7 +45,7 @@ if __name__ == '__main__':
 
     # data
     X_train, X_test, y_train, y_test = iris.numpy_dataset(test_size=0.2, one_hot_y=False, normilize=True)
-    names = iris.speacias_names()
+    names = iris.class_names()
 
     # Test
     knn.train(X_train, y_train)

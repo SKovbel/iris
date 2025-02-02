@@ -1,4 +1,3 @@
-
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import accuracy_score
 
@@ -19,12 +18,13 @@ if __name__ == '__main__':
     # Iris
     iris = Iris()
     X_train, X_test, y_train, y_test = iris.numpy_dataset(test_size=0.2, normilize=True)
-    names = iris.speacias_names()
+    names = iris.class_names()
 
     # Calculate accuracy
     lin_reg  = LinRegModel()
     lin_reg.train(X_train, y_train)
     y_pred = lin_reg.predict(X_test)
-    y_pred = iris.array_binary(y_pred)
-    accuracy = accuracy_score(y_test, y_pred)
+
+    # test
+    accuracy = accuracy_score(y_test, iris.array_binary(y_pred))
     print(f"SVM Accuracy: {accuracy:.4f}")

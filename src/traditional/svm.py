@@ -15,8 +15,7 @@ class SVMModel():
         self.svm.fit(X_train, y_train)
 
     def predict(self, X_test):
-        y_pred = self.svm.predict(X_test)
-        return y_pred
+        return self.svm.predict(X_test)
 
 # @todo bad result
 class SVMModel_():
@@ -58,7 +57,6 @@ if __name__ == '__main__':
 
     # data
     X_train, X_test, y_train, y_test = iris.numpy_dataset(test_size=0.2, one_hot_y=False, normilize=True)
-    names = iris.speacias_names()
 
     # Test
     svm = SVMModel()

@@ -65,16 +65,15 @@ class KMeanModel():
             plt.show()
 
 if __name__ == '__main__':
-    random_seed=1
     n_clusters=3
     n_init=10
 
     iris = Iris()
-    kmeans = KMeanModel(n_clusters=n_clusters, random_state=random_seed, n_init=n_init)
+    kmeans = KMeanModel(n_clusters=n_clusters, random_seed=1, n_init=n_init)
 
     # Data
     X, y = iris.array_dataset(one_hot_y=False, normilize=True)
-    names = iris.speacias_names()
+    names = iris.class_names()
 
     # KMean lib
     clusters, centeroids = kmeans.forward(X)
