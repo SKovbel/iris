@@ -1,7 +1,7 @@
 import numpy as np
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
 np.random.seed(1)
 
@@ -10,7 +10,8 @@ class Iris:
     fixed_palette = {'setosa': 'blue', 'versicolor': 'green', 'virginica': 'red'}
 
     def __init__(self):
-        self.scaler = StandardScaler()
+        #self.scaler = StandardScaler()
+        self.scaler = MinMaxScaler(feature_range=(0, 1))
         self.iris = load_iris()
 
     def normilize(self, X, fit=False):
@@ -43,15 +44,20 @@ class Iris:
         df['Species'] = self.iris.target_names[self.iris.target]
         return df
 
-    def array_dataset(self, one_hot_y=True, normilize=False):
+    def array_dataset(self, one_hot_y=True, normilize=False, test_size=0.0):
         X = self.iris.data
         y = self.iris.target
+
         if one_hot_y:
             N = np.max(self.iris.target) + 1
             y = np.eye(N)[y]
         if normilize:
             X = self.normilize(X, fit=True)
-        return X, y
+        if test_size > 0.0:
+            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=1)
+            return X_train, X_test, y_train, y_test
+        else:
+            return X, y
 
     def numpy_dataset(self, test_size=0.2, one_hot_y=True, normilize=False):
         X, y = self.array_dataset(one_hot_y=one_hot_y, normilize=False)

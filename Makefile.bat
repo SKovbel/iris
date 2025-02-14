@@ -24,10 +24,13 @@ C:/work/python39/python.exe -m neural.code_mse_sigmoid
 C:/work/python39/python.exe -m neural.code_mle_softmax
 C:/work/python39/python.exe -m neural.code_bayes_montecarlo_likelihood
 
+C:/work/python39/python.exe -m generation.autoregressive_cnn
+C:/work/python39/python.exe -m generation.autoregressive_lstm
 C:/work/python39/python.exe -m generation.variational_autoencoder
 C:/work/python39/python.exe -m generation.generative_adversarial_network
 C:/work/python39/python.exe -m generation.diffusion_model
-C:/work/python39/python.exe -m generation.autoregressive_cnn
-C:/work/python39/python.exe -m generation.autoregressive_lstm
+C:/work/python39/python.exe -m generation.flow_based
+
+C:/work/python39/python.exe -m rl.ppo
 
 cd ..

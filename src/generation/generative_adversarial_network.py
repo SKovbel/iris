@@ -85,7 +85,7 @@ class GAN:
             if epoch % 20 == 0:
                 print(f"Epoch {epoch}/{epochs} - Loss_D: {loss_D.item():.4f}, Loss_G: {loss_G.item():.4f}")
 
-    def samples(self, num_samples=150):
+    def generate(self, num_samples=150):
         z = torch.randn(num_samples, self.latent_dim)
         samples = self.generator(z).detach().numpy()
         return samples
@@ -113,7 +113,7 @@ if __name__ == '__main__':
     # train
     dataloader = iris.torch_dataset(batch_size=batch_size, normilize=True)
     gan.train(dataloader, batch_size, epochs, lr)
-    samples_X = gan.samples(samples_count)
+    samples_X = gan.generate(samples_count)
 
     # classify new samples with softmax
     samples_y = softmax.predict(samples_X)

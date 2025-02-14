@@ -43,7 +43,7 @@ class AutoRegLstm(nn.Module):
             if epoch % 20 == 0:
                 print(f'Epoch {epoch}/{self.epochs}, Loss: {epoch_loss / len(data)}')
 
-    def samples(self, examples):
+    def generate(self, examples):
         self.eval()
         samples = []
         with torch.no_grad():
@@ -79,7 +79,7 @@ if __name__ == '__main__':
     # train auto reg model
     dataloader = iris.torch_dataset(batch_size, normilize=True)
     auto_reg.train_model(dataloader, epochs)
-    samples_X = auto_reg.samples(examples=dataloader)
+    samples_X = auto_reg.generate(examples=dataloader)
 
     seed_feature, = next(iter(dataloader))
     seed_feature = seed_feature[0]

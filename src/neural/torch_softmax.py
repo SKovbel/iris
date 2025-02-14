@@ -25,7 +25,7 @@ class NNSoftmax(nn.Module):
         criterion = nn.CrossEntropyLoss()
         optimizer = optim.SGD(self.parameters(), lr=lr)
 
-        for e in range(epochs):
+        for epoch in range(epochs):
             outputs = self.forward(inputs)
             loss = criterion(outputs, targets)
 
@@ -33,12 +33,13 @@ class NNSoftmax(nn.Module):
             loss.backward()
             optimizer.step()
 
-            print(f"Epoch = {e}, samples = {len(X)}, loss = {loss.item()}, time = {round(time.time() - self.start_time, 3)}s.")
+            if epoch % 100 == 0:
+                print(f"Epoch = {epoch}, samples = {len(X)}, loss = {loss.item()}, time = {round(time.time() - self.start_time, 3)}s.")
 
     def predict(self, X):
         inputs = torch.tensor(X, dtype=torch.float32)
         outputs = self.forward(inputs)
-        print(outputs)
+        #print(outputs)
         return outputs.detach().numpy()
 
 if __name__ == '__main__':

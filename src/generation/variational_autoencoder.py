@@ -80,7 +80,7 @@ class VAE(nn.Module):
         KLD = -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp())
         return BCE + KLD
 
-    def samples(self):
+    def generate(self):
         self.eval()
         samples = []
         with torch.no_grad():
@@ -108,7 +108,7 @@ if __name__ == '__main__':
     # train 
     dataloader = iris.torch_dataset(batch_size=batch_size, normilize=True)
     vae.train_model(dataloader, epochs, learning_rate, device)
-    samples_X = vae.samples()
+    samples_X = vae.generate()
 
     # train softmax on real data
     X_train, X_test, Y_train, Y_test = iris.numpy_dataset(test_size=0.2, normilize=True)

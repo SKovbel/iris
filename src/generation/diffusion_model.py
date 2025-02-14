@@ -62,7 +62,7 @@ class Diffusion(nn.Module):
 
             print(f"Epoch {epoch + 1}/{epochs}, Loss: {total_loss / len(data)}")
 
-    def samples(self, num_samples=150):
+    def generate(self, num_samples=150):
         samples = torch.randn(num_samples, self.input_dim)
         for t in reversed(range(self.num_steps)):
             samples = self.denoise(samples, torch.tensor([t] * num_samples))
@@ -86,7 +86,7 @@ if __name__ == "__main__":
     # train diffusion
     dataloader = iris.torch_dataset(batch_size=batch_size, normilize=True)
     diffusion.train_model(dataloader, epochs=epochs)
-    samples_X = diffusion.samples(num_samples=num_samples)
+    samples_X = diffusion.generate(num_samples=num_samples)
 
     # classify new samples with softmax
     samples_y = softmax.predict(samples_X)
