@@ -4,7 +4,7 @@ import torch.nn.functional as F
 
 from dataset import Iris
 from stats import Stats
-from neural.torch_softmax import NNSoftmax
+from neural.classification import NNSoftmax
 
 # VAE Model
 class VAE(nn.Module):

@@ -4,7 +4,7 @@ import torch.optim as optim
 
 from dataset import Iris
 from stats import Stats
-from neural.torch_softmax import NNSoftmax
+from neural.classification import NNSoftmax
 
 class Diffusion(nn.Module):
     def __init__(self, input_dim=4, hidden_dim=64, num_steps=1000):

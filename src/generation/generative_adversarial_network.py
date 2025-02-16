@@ -4,7 +4,7 @@ import torch.optim as optim
 
 from dataset import Iris
 from stats import Stats
-from neural.torch_softmax import NNSoftmax
+from neural.classification import NNSoftmax
 
 # @todo bad result
 class Generator(nn.Module):

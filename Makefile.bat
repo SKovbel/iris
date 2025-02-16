@@ -19,10 +19,12 @@ C:/work/python39/python.exe -m traditional.xg_boost
 C:/work/python39/python.exe -m traditional.decision_trees
 C:/work/python39/python.exe -m traditional.random_forest
 
-C:/work/python39/python.exe -m neural.torch_softmax
-C:/work/python39/python.exe -m neural.code_mse_sigmoid
-C:/work/python39/python.exe -m neural.code_mle_softmax
-C:/work/python39/python.exe -m neural.code_bayes_montecarlo_likelihood
+C:/work/python39/python.exe -m code.mse_sigmoid
+C:/work/python39/python.exe -m code.mle_softmax
+C:/work/python39/python.exe -m code.bayes_montecarlo_likelihood
+
+C:/work/python39/python.exe -m neural.classification
+C:/work/python39/python.exe -m neural.classification_estimation
 
 C:/work/python39/python.exe -m generation.autoregressive_cnn
 C:/work/python39/python.exe -m generation.autoregressive_lstm
@@ -31,6 +33,8 @@ C:/work/python39/python.exe -m generation.generative_adversarial_network
 C:/work/python39/python.exe -m generation.diffusion_model
 C:/work/python39/python.exe -m generation.flow_based
 
-C:/work/python39/python.exe -m rl.ppo
+C:/work/python39/python.exe -m reinforcment.ppo
+C:/work/python39/python.exe -m reinforcment.mdp
+C:/work/python39/python.exe -m reinforcment.dqn
 
 cd ..
