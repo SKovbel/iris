@@ -33,7 +33,11 @@ C:/work/python39/python.exe -m generation.generative_adversarial_network
 C:/work/python39/python.exe -m generation.diffusion_model
 C:/work/python39/python.exe -m generation.flow_based
 
+C:/work/python39/python.exe -m drone_sim.example
+
 C:/work/python39/python.exe -m reinforcment.ppo
+C:/work/python39/python.exe -m reinforcment.ppo_drone
+C:/work/python39/python.exe -m reinforcment.ppo_drone_bl
 C:/work/python39/python.exe -m reinforcment.mdp
 C:/work/python39/python.exe -m reinforcment.dqn
 
